@@ -11,7 +11,7 @@
     "fs:default",
     "fs:scope",
     {
-      "identifier": "fs:write-all",
+      "identifier": "fs:write-files",
       "allow": [{ "path": "$HOME/*" }]
     }
   ]
