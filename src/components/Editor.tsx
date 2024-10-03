@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { useEditorStore } from '../lib/store';
 import { useAppStore } from '../lib/store';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -11,31 +11,40 @@ export const Editor = () => {
   const { mode, currentBufferId } = useEditorStore();
   const { buffers, updateBuffer } = useAppStore();
   const currentBuffer = buffers.find(buf => buf.id === currentBufferId);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const [text, setText] = useState(currentBuffer?.text); // Local state for text
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
-    if (mode === 'editing' && textareaRef.current) {
-      textareaRef.current.focus();  // Focus the textarea
-      textareaRef.current.selectionStart = textareaRef.current.selectionEnd = textareaRef.current.value.length;
+    if (currentBuffer) {
+      setText(currentBuffer.text); // Update local text state when currentBuffer changes
     }
-  }, [mode]);
-  if (!currentBuffer) {
-    return <div>No buffer selected</div>;
-  }
+  }, [currentBuffer]);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    updateBuffer(currentBuffer.id, { text: e.target.value });
+    const newText = e.target.value;
+    setText(newText);
+
+    // Clear the previous timeout if it exists
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    // Set a new timeout
+    setTypingTimeout(setTimeout(() => {
+      updateBuffer(currentBuffer?.id || "", { text: newText }); // Update the buffer after a delay
+    }, 300)); // Adjust the delay as necessary (300ms in this example)
   };
 
   return mode === 'preview' ? (
     <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeHighlight]}>
-      {currentBuffer.text}
+      {currentBuffer?.text}
     </Markdown>
   ) : (
     <TextareaAutosize
       autoFocus
-      ref={textareaRef}  // Attach the ref to TextareaAutosize
-      className="w-full bg-transparent p-2 focus:outline-none rounded-md resize-none"
-      value={currentBuffer.text}
+      className="w-full p-2 focus:outline-none bg-transparent resize-none"
+      value={text} // Use the local text state
       onChange={handleTextChange}
     />
   );

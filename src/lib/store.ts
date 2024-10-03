@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface Buffer {
   id: string;
@@ -23,6 +23,15 @@ interface AppStore {
   setExplorerOpen: (explorerOpen: boolean) => void;
 }
 
+const loadBuffersFromLocalStorage = () => {
+  const savedBuffers = localStorage.getItem('buffers');
+  return savedBuffers ? JSON.parse(savedBuffers) : [];
+};
+
+const saveBuffersToLocalStorage = (buffers: Buffer[]) => {
+  localStorage.setItem('buffers', JSON.stringify(buffers));
+};
+
 export const useEditorStore = create<EditorStore>((set) => ({
   mode: 'editing',
   currentBufferId: null,
@@ -31,14 +40,30 @@ export const useEditorStore = create<EditorStore>((set) => ({
 }));
 
 export const useAppStore = create<AppStore>((set) => ({
-  buffers: [],
+  buffers: loadBuffersFromLocalStorage(), // Load buffers on store initialization
   explorerOpen: false,
-  setExplorerOpen: (explorerOpen: boolean) => set({explorerOpen}),
-  addBuffer: (buffer) => set((state) => ({ buffers: [...state.buffers, buffer] })),
-  updateBuffer: (id, updates) => set((state) => ({
-    buffers: state.buffers.map(buf => buf.id === id ? { ...buf, ...updates } : buf)
-  })),
-  removeBuffer: (id) => set((state) => ({
-    buffers: state.buffers.filter(buf => buf.id !== id)
-  })),
+  setExplorerOpen: (explorerOpen: boolean) => set({ explorerOpen }),
+  addBuffer: (buffer) => {
+    set((state) => {
+      const newBuffers = [...state.buffers, buffer];
+      saveBuffersToLocalStorage(newBuffers); // Save to local storage
+      return { buffers: newBuffers };
+    });
+  },
+  updateBuffer: (id, updates) => {
+    set((state) => {
+      const updatedBuffers = state.buffers.map(buf => 
+        buf.id === id ? { ...buf, ...updates } : buf
+      );
+      saveBuffersToLocalStorage(updatedBuffers); // Save to local storage
+      return { buffers: updatedBuffers };
+    });
+  },
+  removeBuffer: (id) => {
+    set((state) => {
+      const filteredBuffers = state.buffers.filter(buf => buf.id !== id);
+      saveBuffersToLocalStorage(filteredBuffers); // Save to local storage
+      return { buffers: filteredBuffers };
+    });
+  },
 }));
