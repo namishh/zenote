@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.markdown-container h1 {
+  @apply text-5xl my-3 font-bold;
+}
+
+.markdown-container h2 {
+  @apply text-4xl my-2 font-bold;
+}
+
+.markdown-container h3 {
+  @apply text-3xl my-2 font-semibold;
+}
+
+.markdown-container h4 {
+  @apply text-2xl my-2 font-semibold;
+}
+
+.markdown-container h5 {
+  @apply text-xl my-2 font-semibold;
+}
+
+.markdown-container h6 {
+  @apply text-xl my-2 font-bold;
+}
+
+.markdown-container hr {
+  @apply my-4 transition dark:border-neutral-800 border-neutral-300;
+}
+
+.markdown-container blockquote {
+  @apply my-4 transition bg-neutral-200/30 dark:bg-neutral-900 rounded-none p-4 border-l-2 dark:border-l-yellow-300 border-l-indigo-500;
+}
+
+.markdown-container {
+  @apply leading-8;
+}
+
+.markdown-container pre {
+  @apply p-4 bg-neutral-200/30 dark:bg-neutral-900 my-8;
+}
+
+.markdown-container pre code {
+  @apply bg-neutral-200/30 dark:bg-neutral-900;
+}
+
+.markdown-container pre .hljs .hljs-keyword {
+  @apply text-violet-800 dark:text-violet-400;
+}
+
+.markdown-container pre .hljs .hljs-number {
+  @apply text-amber-600 dark:text-amber-400;
+}
+
+
+.markdown-container pre .hljs .hljs-string {
+  @apply text-emerald-600 dark:text-emerald-400;
+}
+
+
+.markdown-container pre .hljs .function_ {
+  @apply text-rose-600 dark:text-rose-400;
+}
+
+
+.markdown-container pre .hljs .language_ {
+  @apply text-indigo-600 dark:text-indigo-400;
+}
+
+.markdown-container pre .hljs .hljs-property {
+  @apply text-rose-600 dark:text-rose-400;
+}
+
+
+.markdown-container code {
+  @apply font-mono text-sm dark:bg-neutral-800 bg-neutral-300/30 p-[3px];
+}
