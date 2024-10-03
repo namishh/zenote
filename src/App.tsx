@@ -33,7 +33,9 @@ function App() {
   _italics_ 
   **bold**
 
-  \`Inline code\` with backticks
+  \`Inline code\` with backticks and another [link](asdf)
+
+  asdfasdfasdfas dslkfhasldkfj hasdkjfhsdl kfjadshf lkasjdfhalk
 
   <div align="center">
 
