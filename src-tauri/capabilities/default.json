@@ -1,10 +1,18 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Capability for the main window",
-  "windows": ["main"],
+  "description": "enables the default permissions",
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
-    "shell:allow-open"
+    "dialog:default",
+    "fs:default",
+    "fs:scope",
+    {
+      "identifier": "fs:write-all",
+      "allow": [{ "path": "$HOME/*" }]
+    }
   ]
 }

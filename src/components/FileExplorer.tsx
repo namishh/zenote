@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppStore, useEditorStore } from '../lib/store';
-import { open, save } from '@tauri-apps/api/dialog';
-import { readTextFile, writeFile } from '@tauri-apps/api/fs';
+import { open, save } from '@tauri-apps/plugin-dialog';
+import { readTextFile, writeFile } from '@tauri-apps/plugin-fs';
 import { v4 as uuidv4 } from 'uuid';
 
 export const FileExplorer: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {

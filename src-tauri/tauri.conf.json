@@ -1,21 +1,22 @@
 {
-  "$schema": "https://schema.tauri.app/config/2.0.0",
-  "productName": "almanac",
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "zenote",
   "version": "0.1.0",
-  "identifier": "com.almanac.app",
+  "identifier": "com.tauri.dev",
   "build": {
-    "beforeDevCommand": "bun run dev",
+    "frontendDist": "../build",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "bun run build",
-    "frontendDist": "../dist"
+    "beforeDevCommand": "bun dev",
+    "beforeBuildCommand": "bun build"
   },
   "app": {
     "windows": [
       {
-        "title": "almanac",
+        "title": "zenote",
         "width": 800,
-        "height": 600
-        
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
       }
     ],
     "security": {
@@ -32,5 +33,5 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
-  }
+  } 
 }
