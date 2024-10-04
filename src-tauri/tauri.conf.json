@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "com.zenote.dev",
   "build": {
-    "frontendDist": "../build",
+    "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
     "beforeDevCommand": "bun dev",
-    "beforeBuildCommand": "bun build"
+    "beforeBuildCommand": "bun run build"
   },
   "app": {
     "windows": [

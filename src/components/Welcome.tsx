@@ -1,10 +1,10 @@
 import { useAppStore, useEditorStore } from '../lib/store';
 import { v4 as uuidv4 } from 'uuid';
-import { open, save } from '@tauri-apps/plugin-dialog';
-import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
+import { open } from '@tauri-apps/plugin-dialog';
+import { readTextFile } from '@tauri-apps/plugin-fs';
 
 export const WelcomeScreen = () => {
-  const { buffers, addBuffer, updateBuffer, removeBuffer, setExplorerOpen, explorerOpen } = useAppStore();
+  const { addBuffer } = useAppStore();
   const { setCurrentBufferId } = useEditorStore();
 
   const handleOpenFile = async () => {

@@ -36,6 +36,23 @@ export const Editor = () => {
     }, 300)); // Adjust the delay as necessary (300ms in this example)
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const textarea = e.target as HTMLTextAreaElement;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      setText(
+        text?.substring(0, start) + "\t" + text?.substring(end)
+      );
+
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 1;
+      }, 0);
+    }
+  };
+
   return mode === 'preview' ? (
     <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeHighlight]}>
       {currentBuffer?.text}
@@ -43,6 +60,7 @@ export const Editor = () => {
   ) : (
     <TextareaAutosize
       autoFocus
+      onKeyDown={handleKeyDown}
       className="w-full p-2 focus:outline-none bg-transparent resize-none"
       value={text} // Use the local text state
       onChange={handleTextChange}

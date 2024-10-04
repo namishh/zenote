@@ -4,10 +4,10 @@ import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { v4 as uuidv4 } from 'uuid';
 
-import {X} from "lucide-react"
+import { X } from "lucide-react"
 
 export const FileExplorer: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const { buffers, addBuffer, updateBuffer, removeBuffer, setExplorerOpen, explorerOpen } = useAppStore();
+  const { buffers, addBuffer, updateBuffer, removeBuffer } = useAppStore();
   const { currentBufferId, setCurrentBufferId } = useEditorStore();
 
   const handleOpenFile = async () => {
@@ -33,8 +33,8 @@ export const FileExplorer: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   };
 
   const saveFile = async () => {
-    const { buffers } = useAppStore.getState();  
-    const { currentBufferId } = useEditorStore.getState(); 
+    const { buffers } = useAppStore.getState();
+    const { currentBufferId } = useEditorStore.getState();
     const currentBuffer = buffers.find(buf => buf.id === currentBufferId);
 
     if (!currentBuffer || !currentBuffer.path) {
@@ -60,11 +60,9 @@ export const FileExplorer: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         filters: [{ name: 'Markdown', extensions: ['md'] }]
       });
       if (savePath) {
-        await writeTextFile(savePath, currentBuffer.text );
+        await writeTextFile(savePath, currentBuffer.text);
         updateBuffer(currentBuffer.id, { path: savePath, fileName: savePath.split('/').pop() || 'Untitled' });
       }
-    } else {
-      await writeTextFile(savePath, currentBuffer.text );
     }
   };
 
@@ -91,22 +89,22 @@ export const FileExplorer: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault(); 
+      e.preventDefault();
       saveFile();
-    }else if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
-      e.preventDefault(); 
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+      e.preventDefault();
       handleNewFile();
-    }else if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
-      e.preventDefault(); 
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
+      e.preventDefault();
       handleOpenFile();
     } else if (e.ctrlKey && e.shiftKey && e.key === 'S') {
-      e.preventDefault(); 
+      e.preventDefault();
       handleSaveFile();
     } else if (e.ctrlKey && e.shiftKey && e.key === 'H') {
-      e.preventDefault(); 
+      e.preventDefault();
       cycleBuffer(-1);
     } else if (e.ctrlKey && e.shiftKey && e.key === 'L') {
-      e.preventDefault(); 
+      e.preventDefault();
       cycleBuffer(1);
     }
   };

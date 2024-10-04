@@ -13,6 +13,17 @@ take markdown notes without all the bullshit.
 4. Code blocks
 5. Fully navigable with keyboard
 6. Made with Tauri
+7. Code components as well
+
+### Running Locally
+
+```
+$ bun i
+$ bun tauri dev 
+
+### To build
+$ bun tauri build
+```
 
 ## Keybinds 
 
